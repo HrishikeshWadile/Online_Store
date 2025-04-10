@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Bill - Book Haven Café</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .bill-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        
+        .feedback-form {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .feedback-form h3 {
+            margin-bottom: 15px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 120px;
+            margin: 10px 0;
+        }
+        
+        .rating {
+            margin: 15px 0;
+        }
+        
+        .rating label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .rating-options {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .rating-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating-option input {
+            margin-right: 5px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container bill-container">
+        <div class="card">
+            <h2>Your Order Bill</h2>
+            
+            <table class="table" id="orderTable">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Order items will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="feedback-form">
+                <h3>Feedback Form</h3>
+                <p>We'd love to hear about your experience at Book Haven Café!</p>
+                
+                <div class="rating">
+                    <label>Rating:</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="rating5" name="rating" value="5">
+                            <label for="rating5">5 - Excellent</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating4" name="rating" value="4">
+                            <label for="rating4">4 - Very Good</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating3" name="rating" value="3">
+                            <label for="rating3">3 - Good</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating2" name="rating" value="2">
+                            <label for="rating2">2 - Fair</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="rating1" name="rating" value="1">
+                            <label for="rating1">1 - Poor</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comments">Comments:</label>
+                    <textarea id="comments" placeholder="Please share your feedback..."></textarea>
+                </div>
+                
+                <button class="btn" onclick="submitFeedback()">Submit Feedback</button>
+            </div>
+            
+            <div class="text-center">
+                <a href="content.html" class="btn btn-accent">Back to Book Store</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Display the order details from sessionStorage
+        window.onload = function() {
+            const order = JSON.parse(sessionStorage.getItem('order'));
+            const total = sessionStorage.getItem('total');
+            const table = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
+            
+            if (order && total) {
+                order.forEach(item => {
+                    const row = table.insertRow();
+                    row.insertCell(0).textContent = item.name;
+                    row.insertCell(1).textContent = item.quantity;
+                    row.insertCell(2).textContent = '$' + item.price.toFixed(2);
+                    row.insertCell(3).textContent = '$' + item.subtotal.toFixed(2);
+                });
+                
+                // Add total row
+                const totalRow = table.insertRow();
+                totalRow.className = 'total-row';
+                const cell = totalRow.insertCell(0);
+                cell.colSpan = 3;
+                cell.textContent = 'Total';
+                totalRow.insertCell(1).textContent = '$' + total;
+            } else {
+                // No order found, redirect back
+                alert('No order found. Please place an order first.');
+                window.location.href = 'food_order.html';
+            }
+        };
+        
+        function submitFeedback() {
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const comments = document.getElementById('comments').value;
+            
+            if (!rating) {
+                alert('Please select a rating');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            alert('Thank you for your feedback!\nRating: ' + rating.value + '\nComments: ' + comments);
+            
+            // Clear the form
+            document.getElementById('comments').value = '';
+            const ratings = document.querySelectorAll('input[name="rating"]');
+            ratings.forEach(r => r.checked = false);
+            
+            // In a real app, you might redirect here
+            // window.location.href = "content.html";
+        }
+    </script>
+</body>
+</html>
