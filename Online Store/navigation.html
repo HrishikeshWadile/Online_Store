@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Haven Navigation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            padding: 20px;
+            height: 100%;
+        }
+        
+        ul {
+            display: flex;
+            width: fit-content;
+            height: fit-content;
+            flex-direction: column; 
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        li {
+            margin: 10px;
+        }
+        
+        a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none; /* Removes the blue underline */
+            color: black; /* Sets the text color */
+            border: 1px solid #ccc; /* Adds a box around the links */
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+        }
+
+        a:hover {
+            background-color: #007BFF; /* Changes background color on hover */
+            color: white; /* Changes text color on hover */
+        }
+
+        @media screen and (max-width: 768px) {
+            ul {
+                
+                flex-direction: row; /* Changes to row on smaller screens */
+                flex-wrap: wrap; /* Allows wrapping of items */
+            }        
+        }
+    </style>
+</head>
+<body class="nav">
+    <ul>
+        <li><a href="login.html" target="content">Login</a></li>
+        <li><a href="registration.html" target="content">Register</a></li>
+        <li><a href="catalogue.html" target="content">Book Catalogue</a></li>
+        <li><a href="food_order.html" target="content">Café Menu</a></li>
+    </ul>
+</body>
+</html>

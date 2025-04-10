@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Haven Café - Order Food</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .order-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        
+        .menu-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #fffaf7;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .item-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .item-name {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .quantity-control button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-control button:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .quantity-control input {
+            width: 50px;
+            text-align: center;
+            margin: 0 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .checkout-section {
+            text-align: right;
+            margin-top: 30px;
+        }
+        
+        .menu-item-image {
+            width: auto;
+            height: 200px;
+            margin-right: 15px;
+            border-radius: 8px;
+        }
+
+
+        @media (max-width: 600px) {
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .quantity-control {
+                margin-top: 15px;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container order-container">
+        <div class="card">
+            <h2>Book Haven Café Menu</h2>
+            <p>Enjoy our delicious snacks and beverages while you browse our books!</p>
+            
+            <div class="menu-item">
+                <div class="item-info">
+                    <img src="images/coffee.jpg" alt="Coffee" class="menu-item-image">
+                    <div>
+                        <div class="item-name">Coffee</div>
+                        <div class="item-description">Freshly brewed coffee with free refills</div>
+                        <div class="item-price">$3.50</div>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <button onclick="adjustQuantity('coffee', -1)">-</button>
+                    <input type="number" id="coffee" value="0" min="0" title="Enter quantity for Coffee">
+                    <button onclick="adjustQuantity('coffee', 1)">+</button>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="item-info">
+                    <img src="images/tea.jpeg" alt="Tea" class="menu-item-image">
+                    <div>
+                        <div class="item-name">Tea</div>
+                        <div class="item-description">Selection of premium teas</div>
+                        <div class="item-price">$3.00</div>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <button onclick="adjustQuantity('tea', -1)">-</button>
+                    <input type="number" id="tea" value="0" min="0" title="Enter quantity for Tea">
+                    <button onclick="adjustQuantity('tea', 1)">+</button>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="item-info">
+                    <img src="images/sandwich.jpg" alt="Sandwich" class="menu-item-image">
+                    <div>
+                        <div class="item-name">Sandwich</div>
+                        <div class="item-description">Freshly made sandwich with your choice of filling</div>
+                        <div class="item-price">$6.50</div>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <button onclick="adjustQuantity('sandwich', -1)">-</button>
+                    <input type="number" id="sandwich" value="0" min="0" title="Enter quantity for Sandwich">
+                    <button onclick="adjustQuantity('sandwich', 1)">+</button>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="item-info">
+                    <img src="images/muffin.jpeg" alt="Muffin" class="menu-item-image">
+                    <div>
+                        <div class="item-name">Muffin</div>
+                        <div class="item-description">Homemade muffin (blueberry or chocolate)</div>
+                        <div class="item-price">$3.75</div>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <button onclick="adjustQuantity('muffin', -1)">-</button>
+                    <input type="number" id="muffin" value="0" min="0" title="Enter quantity for Muffin">
+                    <button onclick="adjustQuantity('muffin', 1)">+</button>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="item-info">
+                    <img src="images/cookie.jpeg" alt="Cookie" class="menu-item-image">
+                    <div>
+                        <div class="item-name">Cookie</div>
+                        <div class="item-description">Freshly baked chocolate chip cookie</div>
+                        <div class="item-price">$2.50</div>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <button onclick="adjustQuantity('cookie', -1)">-</button>
+                    <input type="number" id="cookie" value="0" min="0" title="Enter quantity for Cookie">
+                    <button onclick="adjustQuantity('cookie', 1)">+</button>
+                </div>
+            </div>
+            
+            <div class="checkout-section">
+                <button class="btn" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+            
+            <div class="text-center margin-top-20">
+                <a href="content.html" class="btn btn-accent">Back to Book Store</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function adjustQuantity(item, change) {
+            const input = document.getElementById(item);
+            let newValue = parseInt(input.value) + change;
+            if (newValue < 0) newValue = 0;
+            input.value = newValue;
+        }
+        
+        function checkout() {
+            const items = [
+                { id: 'coffee', name: 'Coffee', price: 3.50 },
+                { id: 'tea', name: 'Tea', price: 3.00 },
+                { id: 'sandwich', name: 'Sandwich', price: 6.50 },
+                { id: 'muffin', name: 'Muffin', price: 3.75 },
+                { id: 'cookie', name: 'Cookie', price: 2.50 }
+            ];
+            
+            let order = [];
+            let total = 0;
+            
+            items.forEach(item => {
+                const quantity = parseInt(document.getElementById(item.id).value);
+                if (quantity > 0) {
+                    order.push({
+                        name: item.name,
+                        quantity: quantity,
+                        price: item.price,
+                        subtotal: quantity * item.price
+                    });
+                    total += quantity * item.price;
+                }
+            });
+            
+            if (order.length === 0) {
+                alert('Please select at least one item');
+                return;
+            }
+            
+            // Store order in sessionStorage to pass to the next page
+            sessionStorage.setItem('order', JSON.stringify(order));
+            sessionStorage.setItem('total', total.toFixed(2));
+            
+            // Redirect to bill page
+            window.location.href = 'food_bill.html';
+        }
+    </script>
+</body>
+</html>

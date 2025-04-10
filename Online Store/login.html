@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Book Haven</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+        }
+        
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            background-color: #fde8e8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card login-container">
+            <h2>Login to Your Account</h2>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+            
+            <form name="loginForm" onsubmit="return validateLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username or Email:</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                
+                <div class="forgot-password">
+                    <a href="forgot_password.html">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn" id="loginBtn">Login</button>
+                
+                <div class="form-footer">
+                    Don't have an account? <a href="registration.html">Register here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simulated user database
+        const users = JSON.parse(localStorage.getItem('bookHavenUsers')) || [];
+        
+        function validateLogin(event) {
+            event.preventDefault();
+            
+            const username = document.loginForm.username.value.trim();
+            const password = document.loginForm.password.value.trim();
+            const errorElement = document.getElementById('errorMessage');
+            const successElement = document.getElementById('successMessage');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Reset messages
+            errorElement.style.display = 'none';
+            successElement.style.display = 'none';
+            
+            // Basic validation
+            if(username === "" || password === "") {
+                showError("Please fill in all fields");
+                return false;
+            }
+            
+            // Disable button during processing
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Check if user exists
+                const user = users.find(u => 
+                    (u.username === username || u.email === username) && 
+                    u.password === password
+                );
+                
+                if(user) {
+                    // Successful login
+                    showSuccess("Login successful! Redirecting...");
+                    
+                    // Store user session
+                    sessionStorage.setItem('currentUser', JSON.stringify({
+                        id: user.id,
+                        name: user.name,
+                        email: user.email
+                    }));
+                    
+                    // Redirect to home page after delay
+                    setTimeout(() => {
+                        window.location.href = "content.html";
+                    }, 1500);
+                } else {
+                    // Invalid credentials
+                    showError("Invalid username or password");
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Login';
+                }
+            }, 1000);
+            
+            return false;
+        }
+        
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            const successElement = document.getElementById('successMessage');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
